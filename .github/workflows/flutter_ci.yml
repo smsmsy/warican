@@ -1,0 +1,53 @@
+# このワークフローはFlutterアプリのCI（継続的インテグレーション）を実現します。
+# すべてのブランチへのpushやPR作成時に自動でテスト・静的解析を実行します。
+# いずれかに失敗するとCI全体が失敗します。
+
+# ワークフローの名前
+name: Flutter CI
+
+# ワークフローのトリガー設定
+on:
+  # すべてのブランチへのpush時に実行
+  push:
+    branches: ["**"]
+  # すべてのブランチへのPR作成・更新時に実行
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  # ジョブ名
+  build:
+    # Ubuntuランナー上で実行
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリのソースコードをチェックアウト
+      - uses: actions/checkout@v4
+
+      # pubパッケージキャッシュの活用
+      - name: Cache pub packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      # Flutter SDKをセットアップ
+      - uses: subosito/flutter-action@v2
+        # 安定版Flutterを使用
+        with:
+          flutter-version: "stable"
+
+      # 依存パッケージのインストール
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 静的解析の実行
+      - name: Analyze
+        run: flutter analyze
+
+      # テストの実行
+      - name: Run tests
+        run: flutter test
