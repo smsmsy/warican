@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    // Flutter公式の拡張機能
+    "dart-code.flutter",
+    "dart-code.dart-code",
+    // Riverpodを効率的に開発するための拡張機能
+    "robert-brunhage.flutter-riverpod-snippets",
+
+    // GitHub Copilot用の
+    "github.copilot",
+    "ms-vscode.vscode-speech",
+    "ms-vscode.vscode-speech-language-pack-ja-jp",
+
+  ]
+}
