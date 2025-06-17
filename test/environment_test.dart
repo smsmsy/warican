@@ -8,7 +8,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('environment test', (_) async {
+  test('environment test', () {
     expect(1 + 1, 2);
   });
 }
