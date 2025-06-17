@@ -24,23 +24,12 @@ jobs:
       # リポジトリのソースコードをチェックアウト
       - uses: actions/checkout@v4
 
-      # pubパッケージキャッシュの活用
-      - name: Cache pub packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
-
-      # Flutter SDKをセットアップ
+      # Flutterのセットアップ
       - uses: subosito/flutter-action@v2
-        flutter-version-file: pubspec.yaml ## pubspec.yamlのパスを指定
-        channel: 'stable'
-        cache: true ## つけていなかったので、つけた
+        with:
+          channel: "stable"
+          flutter-version-file: "pubspec.yaml"
 
-      # 依存パッケージのインストール
       - name: Install dependencies
         run: flutter pub get
 
